@@ -423,6 +423,13 @@ void read_afl_environment(afl_state_t *afl, char **envp) {
             afl->afl_env.afl_post_process_keep_original =
                 get_afl_env(afl_environment_variables[i]) ? 1 : 0;
 
+          } else if (!strncmp(env, "AFL_POST_RUN_TARGET_SCRIPT",
+
+                              afl_environment_variable_len)) {
+
+            afl->afl_env.afl_post_run_target_script =
+                (u8 *)get_afl_env(afl_environment_variables[i]);
+          
           } else if (!strncmp(env, "AFL_TMPDIR",
 
                               afl_environment_variable_len)) {

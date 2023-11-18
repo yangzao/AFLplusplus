@@ -60,6 +60,12 @@ fuzz_run_target(afl_state_t *afl, afl_forkserver_t *fsrv, u32 timeout) {
 
   fsrv_run_result_t res = afl_fsrv_run_target(fsrv, timeout, &afl->stop_soon);
 
+  u8 *sc = afl->afl_env.afl_post_run_target_script;
+
+  if(sc){
+    res = post_run_target_script(sc);
+  }
+
 #ifdef PROFILING
   clock_gettime(CLOCK_REALTIME, &spec);
   time_spent_start = (spec.tv_sec * 1000000000) + spec.tv_nsec;
@@ -67,6 +73,36 @@ fuzz_run_target(afl_state_t *afl, afl_forkserver_t *fsrv, u32 timeout) {
 
   return res;
 
+}
+
+fsrv_run_result_t post_run_target_script(u8 *script) {
+
+  printf("hello from post function\n");
+
+  const char* script_str = (const char*)script;
+  printf("script path: %s\n", script_str);
+  
+  FILE* pipe = popen(script_str, "r");
+  if (!pipe) {
+    return FSRV_RUN_OK;
+  }
+  
+  char buffer[128];
+  size_t bytesRead;
+
+  while ((bytesRead = fread(buffer, 1, sizeof(buffer), pipe)) != 0) {
+    fwrite(buffer, 1, bytesRead, stdout);
+  }
+  buffer[bytesRead] = "\0";
+  
+  if (pclose(pipe) == -1) {
+    return FSRV_RUN_OK;
+  }
+  printf("num of buffer: %lu\n", bytesRead);
+
+  printf("buffer: %s\n", buffer);
+
+  return FSRV_RUN_OK;
 }
 
 /* Write modified data to file for testing. If afl->fsrv.out_file is set, the

@@ -203,6 +203,7 @@ static char *afl_environment_variables[] = {
     "AFL_PERFORMANCE_FILE",
     "AFL_PERSISTENT_RECORD",
     "AFL_POST_PROCESS_KEEP_ORIGINAL",
+    "AFL_POST_RUN_TARGET_SCRIPT",
     "AFL_PRELOAD",
     "AFL_TARGET_ENV",
     "AFL_PYTHON_MODULE",

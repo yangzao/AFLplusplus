@@ -404,8 +404,8 @@ typedef struct afl_env_vars {
       afl_final_sync, afl_ignore_seed_problems;
 
   u8 *afl_tmpdir, *afl_custom_mutator_library, *afl_python_module, *afl_path,
-      *afl_hang_tmout, *afl_forksrv_init_tmout, *afl_preload,
-      *afl_max_det_extras, *afl_statsd_host, *afl_statsd_port,
+      *afl_hang_tmout, *afl_forksrv_init_tmout, *afl_post_run_target_script,
+      *afl_preload, *afl_max_det_extras, *afl_statsd_host, *afl_statsd_port,
       *afl_crash_exitcode, *afl_statsd_tags_flavor, *afl_testcache_size,
       *afl_testcache_entries, *afl_child_kill_signal, *afl_fsrv_kill_signal,
       *afl_target_env, *afl_persistent_record, *afl_exit_on_time;
@@ -1163,6 +1163,7 @@ u8   calibrate_case(afl_state_t *, struct queue_entry *, u8 *, u32, u8);
 u8   trim_case(afl_state_t *, struct queue_entry *, u8 *);
 u8   common_fuzz_stuff(afl_state_t *, u8 *, u32);
 fsrv_run_result_t fuzz_run_target(afl_state_t *, afl_forkserver_t *fsrv, u32);
+fsrv_run_result_t post_run_target_script(u8 *);
 
 /* Fuzz one */
 
