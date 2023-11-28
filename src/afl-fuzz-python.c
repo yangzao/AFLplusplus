@@ -933,7 +933,7 @@ void fuzz_send_py(void *py_mutator, const u8 *buf, size_t buf_size) {
 
 }
 
-void post_run_py(void *py_mutator) {
+u8 post_run_py(void *py_mutator) {
 
   PyObject *py_args, *py_value;
 
@@ -944,7 +944,9 @@ void post_run_py(void *py_mutator) {
 
   if (py_value != NULL) {
 
+    long ret = PyLong_AsLong(py_value);
     Py_DECREF(py_value);
+    return (u8)ret;
 
   } else {
 

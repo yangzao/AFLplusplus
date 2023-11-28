@@ -39,10 +39,10 @@ my_mutator_t *afl_custom_init(afl_state_t *afl, unsigned int seed) {
 
 }
 
-void afl_custom_post_run(my_mutator_t *data) {
+u8 afl_custom_post_run(my_mutator_t *data) {
 
   printf("hello from afl_custom_post_run\n");
-  return;
+  return 0;
 }
 
 

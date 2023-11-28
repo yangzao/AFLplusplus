@@ -1029,7 +1029,7 @@ struct custom_mutator {
    *
    * @param data pointer returned in afl_custom_init by this custom mutator
    */
-  void (*afl_custom_post_run)(void *data);
+  u8 (*afl_custom_post_run)(void *data);
 
   /**
    * Allow for additional analysis (e.g. calling a different tool that does a
@@ -1086,7 +1086,7 @@ void                   finalize_py_module(void *);
 
 u32         fuzz_count_py(void *, const u8 *, size_t);
 void        fuzz_send_py(void *, const u8 *, size_t);
-void        post_run_py(void *);
+u8        post_run_py(void *);
 size_t      post_process_py(void *, u8 *, size_t, u8 **);
 s32         init_trim_py(void *, u8 *, size_t);
 s32         post_trim_py(void *, u8);

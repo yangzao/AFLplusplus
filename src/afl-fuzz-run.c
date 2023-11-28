@@ -67,7 +67,13 @@ fuzz_run_target(afl_state_t *afl, afl_forkserver_t *fsrv, u32 timeout) {
 
     LIST_FOREACH(&afl->custom_mutator_list, struct custom_mutator, {
 
-      if (el->afl_custom_post_run) { el->afl_custom_post_run(el->data); }
+      if (el->afl_custom_post_run) { 
+        u8 post_run_ret = el->afl_custom_post_run(el->data); 
+
+        if(post_run_ret == 1 && res == FSRV_RUN_OK){
+          res = FSRV_RUN_CRASH;
+        }
+        }
 
     });
 
